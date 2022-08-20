@@ -10,27 +10,16 @@
 .body-background {
     background: linear-gradient(144deg, #033570, #6198d9);
     background-size: 400% 400%;
-
-    -webkit-animation: AnimationName 28s ease infinite;
-    -moz-animation: AnimationName 28s ease infinite;
-    animation: AnimationName 28s ease infinite;
+    -webkit-animation: AnimationBack 28s ease infinite;
+   
 }
 
-@-webkit-keyframes AnimationName {
+@-webkit-keyframes AnimationBack {
     0%{background-position:55% 0%}
     50%{background-position:46% 100%}
     100%{background-position:55% 0%}
 }
-@-moz-keyframes AnimationName {
-    0%{background-position:55% 0%}
-    50%{background-position:46% 100%}
-    100%{background-position:55% 0%}
-}
-@keyframes AnimationName {
-    0%{background-position:55% 0%}
-    50%{background-position:46% 100%}
-    100%{background-position:55% 0%}
-}
+
 body{
     /* background-color: var(--background-color) ; */
     font-size: 15px;
