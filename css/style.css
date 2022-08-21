@@ -7,6 +7,11 @@
     --nav-background-color: #4040a1;
 
   }
+ @-webkit-keyframes AnimationBack {
+    0%{background-position:55% 0%}
+    50%{background-position:46% 100%}
+    100%{background-position:55% 0%}
+}
 .body-background {
     background: linear-gradient(144deg, #033570, #6198d9);
     background-size: 400% 400%;
@@ -14,11 +19,7 @@
    
 }
 
-@-webkit-keyframes AnimationBack {
-    0%{background-position:55% 0%}
-    50%{background-position:46% 100%}
-    100%{background-position:55% 0%}
-}
+
 
 body{
     /* background-color: var(--background-color) ; */
@@ -38,10 +39,11 @@ a{
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: center;
     background-color: var(--nav-background-color);
     top: 0;
     position: sticky;
+    padding: 0;
 }
 .navItem{
     font-size: 1.2rem;
@@ -54,10 +56,13 @@ a{
     transition: all .3s ease-in-out;
     cursor: pointer;
 }
+.activeNavItem{
+    background-color: #11115c;
+}
 .navItem:hover{
     background-color: aliceblue;
 }
-.navItem:hover div{
+.navItem:hover a{
    color: rgb(0, 25, 47);
 }
 #mainTitleBox{
