@@ -1,22 +1,23 @@
-var allSection=document.getElementsByClassName('section');
-var navItems=document.getElementsByClassName('navItem');
+let allSection=document.getElementsByClassName('section');
+let allSectionTitle=document.getElementsByClassName('Sectiontitle');
+let navItems=[];
 let navIdxMap=new Map();
 let navBar;
 let navBarHeight;
 function createSection(title,text,imgPath){
-    var mainDiv=document.createElement('div');
+    let mainDiv=document.createElement('div');
     mainDiv.className='section';
 
-    var textContainer=document.createElement('div');
+    let textContainer=document.createElement('div');
     textContainer.className='sectionText';
 
-    var sectionTitle=document.createElement('div');
+    let sectionTitle=document.createElement('div');
     sectionTitle.className='Sectiontitle';
 
-    var line=document.createElement('div');
+    let line=document.createElement('div');
     line.className='sectionTitleLine';
 
-    var para=document.createElement('p');
+    let para=document.createElement('p');
     para.innerText=text;
 
     sectionTitle.innerText=title;
@@ -24,9 +25,9 @@ function createSection(title,text,imgPath){
     textContainer.appendChild(sectionTitle);
     textContainer.appendChild(para);
     
-    var imageContainer=document.createElement('div');
+    let imageContainer=document.createElement('div');
     imageContainer.className='SectionImg';
-    var image=document.createElement('img');
+    let image=document.createElement('img');
     image.src=imgPath;
 
     imageContainer.appendChild(image);
@@ -45,16 +46,30 @@ function createSection(title,text,imgPath){
 }
 
 function addNavItem(title){
-   var mainDiv=document.createElement('div');
-   mainDiv.className='navItem';
-   var link=document.createElement('div');
-   link.innerText=title;
+    let mainListItem=document.createElement('li');
+    mainListItem.className='navItem';
+    let link=document.createElement('a');
 
-   mainDiv.appendChild(link);
-   navIdxMap.set(mainDiv,navItems.length);//add to index map
-   document.getElementById('navContent').appendChild(mainDiv);
+    link.innerText=title;
+    //prevent ancor link actions
+    //link.addEventListener('click',preventDefault);
+    //console.log(mainListItem);
+    navItems.push(mainListItem);
+    mainListItem.appendChild(link);
+    navIdxMap.set(mainListItem,navItems.length-1);//add to index map
+    document.getElementById('navContent').appendChild(mainListItem);
 }
-
+function getSectionTitle(idx){
+    return allSectionTitle[idx].innerText;
+}
+//Build nabBar dynamically 
+function generateNavBar(){
+    //console.log(allSection);
+    for(let i=0;i<allSection.length;i++){
+        let title=getSectionTitle(i);
+        addNavItem(title);
+    }
+}
 //get axis
 function getTop(item){
     return item.offsetTop;
@@ -77,14 +92,12 @@ function scrollTo(idx){
 
 function addScrollEvent(idx){
     navItems[idx].addEventListener('click',()=>{
-        var i=navIdxMap.get(navItems[idx]);//get section index by navItem
-        //console.log(navItems[idx]);
-        //console.log(i);
+        let i=navIdxMap.get(navItems[idx]);//get section index by navItem
         scrollTo(i);  
     });
 }
 function addObserverTo(item){
-    var observer=new IntersectionObserver(entries =>{
+    let observer=new IntersectionObserver(entries =>{
         entries.forEach(entry=>{
             entry.target.classList.toggle("active",entry.isIntersecting)
         })
@@ -94,15 +107,18 @@ function addObserverTo(item){
 
     observer.observe(item);
 }
-
 function runMainFunctions(){
     //add scroll event listener to all navItems
+    generateNavBar();
+
     //add Observers
     for (const section of allSection) {
         addObserverTo(section);
     }
-    for(var i=0;i<navItems.length;i++) {
+    for(let i=0;i<navItems.length;i++) {
+        //build index map
         navIdxMap.set(navItems[i],i);
+        //add scroll event
         addScrollEvent(i);
     }
 }
