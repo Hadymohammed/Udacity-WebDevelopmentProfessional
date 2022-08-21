@@ -2,6 +2,7 @@ let allSection=document.getElementsByClassName('section');
 let allSectionTitle=document.getElementsByClassName('Sectiontitle');
 let navItems=[];
 let navIdxMap=new Map();
+let sectionIdxMap=new Map();
 let navBar;
 let navBarHeight;
 function createSection(title,text,imgPath){
@@ -41,6 +42,7 @@ function createSection(title,text,imgPath){
     //add EventListener
     addScrollEvent(navItems.length-1);
     //add observer
+    sectionIdxMap.set(mainDiv,allSection.length-1);
     addObserverTo(mainDiv);
 
 }
@@ -49,10 +51,10 @@ function addNavItem(title){
     let mainListItem=document.createElement('li');
     mainListItem.className='navItem';
     let link=document.createElement('a');
-
     link.innerText=title;
+    //link.href="#";
     //prevent ancor link actions
-    //link.addEventListener('click',preventDefault);
+    link.onclick="preventDefault()";
     //console.log(mainListItem);
     navItems.push(mainListItem);
     mainListItem.appendChild(link);
@@ -98,9 +100,11 @@ function addScrollEvent(idx){
 }
 function addObserverTo(item){
     let observer=new IntersectionObserver(entries =>{
-        entries.forEach(entry=>{
+        for (const entry of entries) {
+            let idx=sectionIdxMap.get(entry.target);
             entry.target.classList.toggle("active",entry.isIntersecting)
-        })
+            navItems[idx].classList.toggle("activeNavItem",entry.isIntersecting);
+        }
     },{
         threshold:1
     });
@@ -112,8 +116,10 @@ function runMainFunctions(){
     generateNavBar();
 
     //add Observers
-    for (const section of allSection) {
-        addObserverTo(section);
+    
+    for (let i=0;i<allSection.length;i++) {
+        sectionIdxMap.set(allSection[i],i);
+        addObserverTo(allSection[i]);
     }
     for(let i=0;i<navItems.length;i++) {
         //build index map
