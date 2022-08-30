@@ -1,4 +1,4 @@
-# Udacity-WebDevelopmentProfessional
+# Udacity-WebDevelopmentProfessional/task
 ## LandingPage task 
 #### Task Descrition 
 Build a **responsive** good looking LandingPage and practice my new JavaScript knowledge by add:
